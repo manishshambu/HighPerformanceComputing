@@ -17,39 +17,51 @@
 
 
 5. PATH variable in the intel module - /curc/tools/x86_64/rh6/software/intel/15.0.2/composer_xe_2015.2.164/bin/intel64:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-  PATH variable before loading intel module - usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-PATH variable chanages for each module.
- 
-LD_LIBRARY_PATH variable in the intel module - /curc/tools/x86_64/rh6/software/intel/15.0.2/composer_xe_2015.2.164/compiler/lib/intel64
-LD_LIBRARY_PATH variable before loading intel module - ''
+   PATH variable before loading intel module - usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 
-6. After loding the intel module, few set of MPI implementation adds to the total list of available software.
+   PATH variable chanages for each module.
+ 
+   LD_LIBRARY_PATH variable in the intel module - /curc/tools/x86_64/rh6/software/intel/15.0.2/composer_xe_2015.2.164/compiler/lib/intel64
+   LD_LIBRARY_PATH variable before loading intel module - ''
+
+6. After loading the intel module, few set of MPI implementation and compiler dependant application adds to the total list of available software.
 
 7. In a hierarchical module system, modules are only available to be loaded once their dependencies have been satisfied. This prevents accidental loading of modules that are inconsistent with each other.
 
-8.
-Environmental variables set when intel module is loaded.
-AR, MANPATH, _ModuleTable003, HOSTNAME, INTEL_LICENCE_FILE,CURC_INTEL_BIN,TERM,SHELL, HISTSIZE, LMOD_DEFAULT, MODULEPATH_ROOT, SSH_CLIENT, CURC_INTEL_ROOT, LMOD_PKG, OLDPWD, LMOD_VERSION, MIC-LD-LIBRARY, SSH_TTY,USER, LD_LIBRARYPATH,LMOD_sys
+8.  The following environmental variables are set when intel module is loaded.
+    "CURC_INTEL_ROOT","/curc/tools/x86_64/rh6/software/intel/15.0.2"
+    "CURC_INTEL_BIN","/curc/tools/x86_64/rh6/software/intel/15.0.2/bin"
 
-Environmental variables set when gcc module is loaded.  
-MANPATH, HOSTNAME, TERM, SHELL, HISTSIZE, LMOD_DEFAULT_MODULEPATH, MODULEPATH_ROOT, SSH_CLIENT, LMOD_PACKAGE_PATH, CURC_GCC_BIN, OLDPWD, SSH_TTY, USER, LD_LIBRARY_PATH, LMOD_sys, CC, CURC_FAMILY_COMPILER
+    The following environmental variables set when gcc module is loaded.  
+    "CURC_GCC_ROOT","/curc/tools/x86_64/rh6/software/gcc/5.1.0"
+    "CURC_GCC_LIB","/curc/tools/x86_64/rh6/software/gcc/5.1.0/lib"
+    "CURC_GCC_INC","/curc/tools/x86_64/rh6/software/gcc/5.1.0/include"
+    "CURC_GCC_BIN","/curc/tools/x86_64/rh6/software/gcc/5.1.0/bin"
 
-9. Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
-Apple LLVM version 8.1.0 (clang-802.0.42)
-Target: x86_64-apple-darwin16.7.0
-Thread model: posix
-InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+9." Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+  Apple LLVM version 8.1.0 (clang-802.0.42)
+  Target: x86_64-apple-darwin16.7.0
+  Thread model: posix
+  InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
 
 11.
+   Contents of .err file is empty
+   Contents of .out file
+   "Running on shas0508.rc.int.colorado.edu
+   Calling axpy - Passed" 
 
-12.
-[mash3503@shas0136 src]$ OMP_NUM_THREADS=1 ./test_axpy.exe
-Calling axpy - Passed
-[mash3503@shas0136 src]$ OMP_NUM_THREADS=2 ./test_axpy.exe
-Calling axpy - Passed
-[mash3503@shas0136 src]$ OMP_NUM_THREADS=4 ./test_axpy.exe
-Calling axpy - Passed
-[mash3503@shas0136 src]$ OMP_NUM_THREADS=8 ./test_axpy.exe
-Calling axpy - Passed
-[mash3503@shas0136 src]$ OMP_NUM_THREADS=16 ./test_axpy.exe
-Calling axpy - Passed  
+12.I monitored the job using scontrol show job {JOBID}.
+
+13. I did not get any compiler warning.
+
+
+14.[mash3503@shas0136 src]$ OMP_NUM_THREADS=1 ./test_axpy.exe
+   Calling axpy - Passed
+   [mash3503@shas0136 src]$ OMP_NUM_THREADS=2 ./test_axpy.exe
+   Calling axpy - Passed
+   [mash3503@shas0136 src]$ OMP_NUM_THREADS=4 ./test_axpy.exe
+   Calling axpy - Passed
+   [mash3503@shas0136 src]$ OMP_NUM_THREADS=8 ./test_axpy.exe
+   Calling axpy - Passed
+   [mash3503@shas0136 src]$ OMP_NUM_THREADS=16 ./test_axpy.exe
+   Calling axpy - Passed  
