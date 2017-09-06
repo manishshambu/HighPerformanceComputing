@@ -1,4 +1,5 @@
 #include "axpy.h"
+#include <omp.h>
 
 void axpy(size_t n, double a, const double *x, double *y) throw (std::runtime_error)
 {

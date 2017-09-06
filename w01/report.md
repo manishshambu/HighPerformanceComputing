@@ -61,17 +61,22 @@
    I monitored the job using scontrol show job {JOBID}.
 
 11. Does the behavior of compiler or program change? Address the compiler warning you received by adding proper flag (consult the compiler man page man icc). How does the program behavior change after compilation?    
-    I did not get any compiler warning.
-
+    Compiler warning
+    test_axpy.cc:(.text+0x61): undefined reference to `omp_get_wtime'
+    test_axpy.cc:(.text+0xe9): undefined reference to `omp_get_wtime' 
+   
+     To address this we need to link I added -l flag which links the omp library. The command I used to compile is "g++  -D_OPENMP axpy.cc test_axpy.cc -o test_axpy.exe -lgomp"    
 
 12. Set OMP_NUM_THREADS to 1, 2, 4, 8, and 16 and report the results.
-   [mash3503@shas0136 src]$ OMP_NUM_THREADS=1 ./test_axpy.exe
+   [mash3503@login01 src]$ OMP_NUM_THREADS=2 ./test_axpy.exe 
    Calling axpy - Passed
-   [mash3503@shas0136 src]$ OMP_NUM_THREADS=2 ./test_axpy.exe
+   Elapsed time: 6.8187s
+   [mash3503@login01 src]$ OMP_NUM_THREADS=4 ./test_axpy.exe 
    Calling axpy - Passed
-   [mash3503@shas0136 src]$ OMP_NUM_THREADS=4 ./test_axpy.exe
+   Elapsed time: 5.69018s
+   [mash3503@login01 src]$ OMP_NUM_THREADS=8 ./test_axpy.exe 
    Calling axpy - Passed
-   [mash3503@shas0136 src]$ OMP_NUM_THREADS=8 ./test_axpy.exe
+   Elapsed time: 5.88143s
+   [mash3503@login01 src]$ OMP_NUM_THREADS=12 ./test_axpy.exe 
    Calling axpy - Passed
-   [mash3503@shas0136 src]$ OMP_NUM_THREADS=16 ./test_axpy.exe
-   Calling axpy - Passed 
+   Elapsed time: 5.45118s
