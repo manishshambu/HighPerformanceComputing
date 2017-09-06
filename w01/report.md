@@ -1,4 +1,5 @@
-1. The search path for commands.  It is a colon-separated  list  of
+1. What does the man page for bash says for PATH? Use man bash to print the man page.
+   The search path for commands.  It is a colon-separated  list  of
    directories  in  which the shell looks for commands (see COMMAND
    EXECUTION below).  A zero-length (null) directory  name  in  the
    value of PATH indicates the current directory.  A null directory
@@ -8,15 +9,18 @@
    ‘‘/usr/gnu/bin:/usr/local/bin:/usr/ucb:/bin:/usr/bin’’.
 
 
-2. A colon-separated list of directories in which to search for ELF
+2. What is the entry for LD_LIBRARAY_PATH in the man page for ld.so (dynamic linker on Linux)?
+   A colon-separated list of directories in which to search for ELF
    libraries at execution-time.  Similar to  the  PATH  environment
    variable.
 
 
-3. /home/mash3503
+3. What is the value stored in HOME. You can use echo to show the value of a variable.
+   /home/mash3503
 
 
-5. PATH variable in the intel module - /curc/tools/x86_64/rh6/software/intel/15.0.2/composer_xe_2015.2.164/bin/intel64:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+4. Inspect the details of intel module on Summit. How does it change the PATH and LD_LIBRARY_PATH variables? 
+   PATH variable in the intel module - /curc/tools/x86_64/rh6/software/intel/15.0.2/composer_xe_2015.2.164/bin/intel64:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
    PATH variable before loading intel module - usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 
    PATH variable chanages for each module.
@@ -24,38 +28,44 @@
    LD_LIBRARY_PATH variable in the intel module - /curc/tools/x86_64/rh6/software/intel/15.0.2/composer_xe_2015.2.164/compiler/lib/intel64
    LD_LIBRARY_PATH variable before loading intel module - ''
 
-6. After loading the intel module, few set of MPI implementation and compiler dependant application adds to the total list of available software.
+5. After you load the intel module, how does the list of available modules change?
+   After loading the intel module, few set of MPI implementation and compiler dependant application adds to the total list of available software.
 
-7. In a hierarchical module system, modules are only available to be loaded once their dependencies have been satisfied. This prevents accidental loading of modules that are inconsistent with each other.
+6. Descibe the motivation for hierarchical module system.
+   In a hierarchical module system, modules are only available to be loaded once their dependencies have been satisfied. This prevents accidental loading of modules that are inconsistent with each other.
 
-8.  The following environmental variables are set when intel module is loaded.
-    "CURC_INTEL_ROOT","/curc/tools/x86_64/rh6/software/intel/15.0.2"
-    "CURC_INTEL_BIN","/curc/tools/x86_64/rh6/software/intel/15.0.2/bin"
+7. What environment variables are set by the intel and gcc modules?
+   The following environmental variables are set when intel module is loaded.
+   "CURC_INTEL_ROOT","/curc/tools/x86_64/rh6/software/intel/15.0.2"
+   "CURC_INTEL_BIN","/curc/tools/x86_64/rh6/software/intel/15.0.2/bin"
 
-    The following environmental variables set when gcc module is loaded.  
-    "CURC_GCC_ROOT","/curc/tools/x86_64/rh6/software/gcc/5.1.0"
-    "CURC_GCC_LIB","/curc/tools/x86_64/rh6/software/gcc/5.1.0/lib"
-    "CURC_GCC_INC","/curc/tools/x86_64/rh6/software/gcc/5.1.0/include"
-    "CURC_GCC_BIN","/curc/tools/x86_64/rh6/software/gcc/5.1.0/bin"
+   The following environmental variables set when gcc module is loaded.  
+   "CURC_GCC_ROOT","/curc/tools/x86_64/rh6/software/gcc/5.1.0"
+   "CURC_GCC_LIB","/curc/tools/x86_64/rh6/software/gcc/5.1.0/lib"
+   "CURC_GCC_INC","/curc/tools/x86_64/rh6/software/gcc/5.1.0/include"
+   "CURC_GCC_BIN","/curc/tools/x86_64/rh6/software/gcc/5.1.0/bin"
 
-9." Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
-  Apple LLVM version 8.1.0 (clang-802.0.42)
-  Target: x86_64-apple-darwin16.7.0
-  Thread model: posix
-  InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
+9. Install a compatible version of Intel and/or GCC compiler on a machine that you can freely access. There are times that RC is not available due to maintenance, project and assignment deadlines will not be extended due to that. What does ${CC} -v (where CC is either gcc or icc) print on your machine?
+   "Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+   Apple LLVM version 8.1.0 (clang-802.0.42)
+   Target: x86_64-apple-darwin16.7.0
+   Thread model: posix
+   InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
 
-11.
+10. Store the lines above in job.sh file and use sbatch job.sh to submit to Summit. Monitor the status of the job by using commands given in the related RC guide section. What commands did you use? What are the contents of the .out and .err files. If the contents are different from what you saw interactively, debug.
    Contents of .err file is empty
    Contents of .out file
    "Running on shas0508.rc.int.colorado.edu
    Calling axpy - Passed" 
+   
+   I monitored the job using scontrol show job {JOBID}.
 
-12.I monitored the job using scontrol show job {JOBID}.
+11. Does the behavior of compiler or program change? Address the compiler warning you received by adding proper flag (consult the compiler man page man icc). How does the program behavior change after compilation?    
+    I did not get any compiler warning.
 
-13. I did not get any compiler warning.
 
-
-14.[mash3503@shas0136 src]$ OMP_NUM_THREADS=1 ./test_axpy.exe
+12. Set OMP_NUM_THREADS to 1, 2, 4, 8, and 16 and report the results.
+   [mash3503@shas0136 src]$ OMP_NUM_THREADS=1 ./test_axpy.exe
    Calling axpy - Passed
    [mash3503@shas0136 src]$ OMP_NUM_THREADS=2 ./test_axpy.exe
    Calling axpy - Passed
@@ -64,4 +74,4 @@
    [mash3503@shas0136 src]$ OMP_NUM_THREADS=8 ./test_axpy.exe
    Calling axpy - Passed
    [mash3503@shas0136 src]$ OMP_NUM_THREADS=16 ./test_axpy.exe
-   Calling axpy - Passed  
+   Calling axpy - Passed 
