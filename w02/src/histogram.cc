@@ -57,7 +57,7 @@ void histogram(size_t n, const double *x, int num_bins, double **bin_bdry, size_
 
 	double binRange = (max_val - min_val)/num_bins;
 	mytime_t start = NOW();
-	omp_set_num_threads(32);
+	//omp_set_num_threads(32);
 	#pragma omp parallel
 	{
 		size_t *histogram_private_count = new size_t[num_bins];
