@@ -110,30 +110,46 @@ void histogram(size_t n, const double *x, int num_bins, double **bin_bdry, size_
 	mytime_t end = NOW();
 	#ifdef _OPENMP
         std::cout<<"Elapsed time for histogram function with "<<num_threads<<" threads: "<<end-start<<"s"<<std::endl;
-	 #endif
+	#endif
 }
 
 int main(int argc, char *argv[])
 {
-	if(argc < 3)
+	if(argc < 5)
 	{
-		printf("Enter \n1.Number of bins\n2.Number of elements\n");
+		printf("Enter \n1.Number of bins\n2.Number of elements\n3.Name of the input file\n4.Type 1 for outlier or 0 if not required\n");
 		return 0;
 	}
 	
 	nb  = atoi(argv[1]);
+	int outlier = atoi(argv[4]);
 	size_t n = atoi(argv[2]);
-	double minNum = 0.0;
-	double maxNum = 9999999999.0;
-	
-
-	double *x = new double[n];
-	for(size_t i=0; i < n; i++)
+//	String fileName = argv[3]
+	if(outlier ==1)
 	{
-	   double f = (double)rand() / RAND_MAX;
-	   x[i] = minNum + f * (maxNum - minNum);
-	}		
+		n += 1;
+	}
+	int j=0;
+	int i=0;
+	FILE *fp;
+	char *line = NULL;
+	size_t len_word = 0;
+	ssize_t read;
 	
+	fp = fopen(argv[3], "r");
+	if(fp == NULL)
+		exit(0);
+	
+	double *x = new double[n];
+	while(((read = getline(&line, &len_word, fp)) != -1) && (i<n))
+		{
+			x[i++] = atof(line);
+		}
+	if(outlier ==1)
+	{
+		x[n-1] = nb;
+	}
+
 	double *bb;
 	size_t *bc;
 	
@@ -141,11 +157,14 @@ int main(int argc, char *argv[])
       
 	for(int i=0; i<nb; ++i)
 	 {
-		 printf("[bin %d: %5.2e --%5.2e] %d\n",i, bb[i], bb[i+1], bc[i]);
+		// Uncomment thi sto print the output
+		// printf("[bin %d: %5.2e --%5.2e] %d\n",i, bb[i], bb[i+1], bc[i]);
 	 }
 	
 	//delete [] bb;
 	//delete [] bc;
-	
+	fclose(fp);
+	if(line)
+		free(line);
 	return 0;
 }

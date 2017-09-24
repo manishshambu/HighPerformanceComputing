@@ -10,7 +10,7 @@
 #define NOW()(0)
 #endif
 typedef double mytime_t;
-long lenArr = 99999;
+long lenArr = 0;
 
 long partition(long *a, int low, int high)
 {
@@ -66,21 +66,22 @@ long partition(long *a, int low, int high)
 void parallelQsort(long *x, long low, long high)
 {
 	long pi;
-	
-		if(low < high)
-		{
-			pi = partition(x, low, high);
 
-			#pragma omp task
-			{
+	if(low < high)
+	{
+		pi = partition(x, low, high);
+
+#pragma omp task
+		{
 			parallelQsort(x, low, pi-1);
-			}
-			
-			#pragma omp task
-			{
-			parallelQsort(x, pi+1, high);
-			}
 		}
+
+#pragma omp task
+		{
+			parallelQsort(x, pi+1, high);
+		}
+
+	}
 }
 
 
@@ -88,46 +89,62 @@ void quicksort(const long *x, size_t n, long *y)
 {
 	mytime_t start = NOW(); 
 	int num_threads;
-	#pragma omp parallel
+#pragma omp parallel
 	{ 
 		num_threads = omp_get_num_threads();
-		#pragma omp single nowait
+#pragma omp single nowait
 		parallelQsort(y, 0, n-1);
 	}
 	mytime_t end = NOW();
-	
-	   /*for(long i=0; i<n; i++)
-	   {
-	   printf("%lu\n", *(y+i));
-	   }*/
-	   
 
-	#ifdef _OPENMP
-	std::cout<<"Elapsed time for quicksort with "<<num_threads<<" threads: "<<end-start<<"s"<<std::endl;
-	#endif
+	// Uncomment this to see the output
+	/*for(long i=0; i<n; i++)
+	  {
+	  printf("%lu\n", *(y+i));
+	  }
+	*/
+
+
+//#ifdef _OPENMP
+//	std::cout<<"Elapsed time for quicksort with "<<num_threads<<" threads: "<<end-start<<"s"<<std::endl;
+//#endif
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-	long minNum = 1;
-	long maxNum = lenArr;
-	long maxNumDisplayed = 999999999;
+	if(argc < 3)
+	{
+		printf("Enter:\n1.Desired number of elements in array\n2.Array file name\n");
+		return 0;
+	}
+	lenArr = atol(argv[1]);
 
 	long *x;
 	long *y;
 	x = new long[lenArr];
 	y = new long[lenArr];
+	
+	int j = 0;
+	int i = 0;
+	FILE *fp;
+	char *line = NULL;
+	size_t len_word = 0;
+	ssize_t read;
+	
+	fp = fopen(argv[2], "r");
+	if (fp == NULL)
+		exit(0);
 
-	long i;
-	srand(5);
-	// Generate array elements randomly
-	for(i=0; i < lenArr; i++)
+
+	while(((read = getline(&line, &len_word, fp)) != -1) && (i<lenArr))
 	{
-		x[i] = minNum+(rand()%maxNum);
+		x[i] = atol(line);
 		y[i] = x[i];
+		i++;
 	}
 
 	quicksort(x, lenArr, y);
 	delete [] x;
 	delete [] y;
+	return 0;
 }
