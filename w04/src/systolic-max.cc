@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 		printf("Enter 1. Array file name\n");
 		return 0;
 	}
-	int line_num = atoi(argv[1]);
+	//int line_num = atoi(argv[1]);
 	int numtasks, rank;
 
 	const char* fname = argv[1];
