@@ -15,5 +15,6 @@ The given program however uses very less thread synchronisations. Other than tha
 These are the threshold values which tell the processor  when to execute task parallelism or work sharing, so that the performance remains in its peak.
 
 
-4. This environmanet variable helps us to determine the machine topology and assign OpenMP threads to the processors based upon their physical location in the machine.
+4. 
+This environmanet variable helps us to determine the machine topology and assign OpenMP threads to the processors based upon their physical location in the machine.
 Specifying scatter distributes the threads as evenly as possible across the entire system.

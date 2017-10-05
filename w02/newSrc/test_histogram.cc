@@ -41,7 +41,11 @@ int main(int argc, char** argv){
 
     double *x(new double[n]);
     fill_vec(n,x);
-    if (argv[3]) x[n-1]=nb;
+    if (argv[3])
+	{
+	 x[n-1]=nb;
+	printf("argv[3], %d", atoi(argv[3]));
+	}
 
     double *bb(NULL);
     size_t *bc(NULL);
