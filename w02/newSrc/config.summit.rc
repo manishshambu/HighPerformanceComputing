@@ -1,0 +1,8 @@
+module purge
+module load intel
+module list
+
+# control the thread allocation (intel machines)
+export KMP_AFFINITY="granularity=thread,scatter"
+
+echo "Current variables CC=${CC} and CXX=${CXX}"

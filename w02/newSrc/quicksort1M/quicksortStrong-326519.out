@@ -1,0 +1,17 @@
+Running quicksort on shas0626.rc.int.colorado.edu
+Sorting a random array of size 1000K, num_threads=1
+Elapsed=4.98e-01
+Sorting a random array of size 1000K, num_threads=2
+Elapsed=5.04e-01
+Sorting a random array of size 1000K, num_threads=4
+Elapsed=3.02e-01
+Sorting a random array of size 1000K, num_threads=8
+Elapsed=2.02e-01
+Sorting a random array of size 1000K, num_threads=12
+Elapsed=1.54e-01
+Sorting a random array of size 1000K, num_threads=16
+Elapsed=1.29e-01
+Sorting a random array of size 1000K, num_threads=20
+Elapsed=1.19e-01
+Sorting a random array of size 1000K, num_threads=24
+Elapsed=1.14e-01

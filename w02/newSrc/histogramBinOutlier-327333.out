@@ -1,0 +1,49 @@
+Running histogram on shas0437.rc.int.colorado.edu
+Histogram of a random array of size 100000, num_bins=10, num_threads=1
+Elapsed time=8.71e-04
+Histogram of a random array of size 100000, num_bins=10, num_threads=2
+Elapsed time=1.15e-03
+Histogram of a random array of size 100000, num_bins=10, num_threads=4
+Elapsed time=1.03e-03
+Histogram of a random array of size 100000, num_bins=10, num_threads=8
+Elapsed time=2.29e-03
+Histogram of a random array of size 100000, num_bins=10, num_threads=12
+Elapsed time=1.39e-03
+Histogram of a random array of size 100000, num_bins=10, num_threads=16
+Elapsed time=2.17e-03
+Histogram of a random array of size 100000, num_bins=10, num_threads=20
+Elapsed time=3.84e-03
+Histogram of a random array of size 100000, num_bins=10, num_threads=24
+Elapsed time=3.13e-03
+Histogram of a random array of size 100000, num_bins=1000, num_threads=1
+Elapsed time=6.56e-04
+Histogram of a random array of size 100000, num_bins=1000, num_threads=2
+Elapsed time=7.31e-04
+Histogram of a random array of size 100000, num_bins=1000, num_threads=4
+Elapsed time=6.02e-04
+Histogram of a random array of size 100000, num_bins=1000, num_threads=8
+Elapsed time=9.87e-04
+Histogram of a random array of size 100000, num_bins=1000, num_threads=12
+Elapsed time=1.03e-03
+Histogram of a random array of size 100000, num_bins=1000, num_threads=16
+Elapsed time=1.13e-03
+Histogram of a random array of size 100000, num_bins=1000, num_threads=20
+Elapsed time=2.52e-03
+Histogram of a random array of size 100000, num_bins=1000, num_threads=24
+Elapsed time=2.76e-03
+Histogram of a random array of size 100000, num_bins=10000, num_threads=1
+Elapsed time=9.72e-04
+Histogram of a random array of size 100000, num_bins=10000, num_threads=2
+Elapsed time=8.01e-04
+Histogram of a random array of size 100000, num_bins=10000, num_threads=4
+Elapsed time=6.42e-04
+Histogram of a random array of size 100000, num_bins=10000, num_threads=8
+Elapsed time=1.54e-03
+Histogram of a random array of size 100000, num_bins=10000, num_threads=12
+Elapsed time=2.29e-03
+Histogram of a random array of size 100000, num_bins=10000, num_threads=16
+Elapsed time=1.48e-03
+Histogram of a random array of size 100000, num_bins=10000, num_threads=20
+Elapsed time=2.83e-03
+Histogram of a random array of size 100000, num_bins=10000, num_threads=24
+Elapsed time=2.02e-03
