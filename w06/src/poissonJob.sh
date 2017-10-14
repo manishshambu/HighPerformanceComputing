@@ -15,10 +15,12 @@ echo "Running poissons residual calculation on $(hostname --fqdn)"
 
 for i in 1 4 9 16 25
 do
-        mpirun -n $i ./poisson.exe 200;
+        mpirun -n $i ./poisson.exe 210;
 done
 
 for i in 1 8 27
 do
-	mpirun -n $i ./poisson.exe 200;
+	mpirun -n $i ./poisson.exe 210;
 done
+
+
