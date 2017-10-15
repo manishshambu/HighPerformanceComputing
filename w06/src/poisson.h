@@ -47,4 +47,4 @@ void poisson_residual(MPI_Comm &grid_comm, std::vector<real_t> &a, std::vector<r
 
 real_t getValFromCartShift(MPI_Comm &grid_comm, int direction, int  displacement, real_t &v);
 
-int getIndex(real_t i, real_t j, real_t k, real_t range);
+int getIndex(real_t i, real_t j, real_t k, real_t iRange,real_t jRange);

@@ -56,24 +56,28 @@ void poisson_setup(MPI_Comm &comm, int n, MPI_Comm &grid_comm, std::vector<point
 
 	// Distribute the points among processors.
 
-	int k = std::pow(numNodes, 1/3.);
+	//int k = std::pow(numNodes, 1/3.);
 
-	real_t m = n/k;
+	//real_t m = n/k;
 	real_t h = 1.0/(double(n) - 1.0);
+	real_t iRange = n/dims[0];
+	real_t jRange = n/dims[1];
+	real_t kRange = n/dims[1];
+	//printf("dims0 %d dims1 %d dims2 %d\n", dims[0], dims[1], dims[2]);
 	//printf("Num Nodes %d\n", numNodes);
 	//printf("H value %f\n", h);
 	//printf("m value = %f\n", m);
 
-	for(int i= 0 ; i < m; i++)
+	for(int i= 0 ; i < iRange; i++)
 	{
-		for(int j = 0; j < m; j++)
+		for(int j = 0; j < jRange; j++)
 		{
-			for(int k = 0; k < m; k++)
+			for(int k = 0; k < kRange; k++)
 			{
 				point_t point;
-				point.x = (coords[0] * m + i);
-				point.y = (coords[1] * m + j);
-				point.z = (coords[2] * m + k);
+				point.x = (coords[0] * dims[0] + i);
+				point.y = (coords[1] * dims[1] + j);
+				point.z = (coords[2] * dims[2] + k);
 				x.push_back(point);
 				//printf("%f %f %f Rank = %d\n", point.x, point.y, point.z, rank);			
 			}
@@ -128,7 +132,7 @@ real_t poisson_residual(MPI_Comm &grid_comm, std::vector<real_t> &a, std::vector
 			for(real_t k = 0; k < kRange; k++)
 			{
 				real_t Lu = 0;
-				int index = getIndex(i, j, k, iRange);
+				int index = getIndex(i, j, k, iRange, jRange);
 				//printf("Index %d\n", index);
 				real_t v_val = v[index];
 				real_t f_val = f[index];
@@ -141,46 +145,46 @@ real_t poisson_residual(MPI_Comm &grid_comm, std::vector<real_t> &a, std::vector
 				if(i == 0)
 				{
 					part2 += getValFromCartShift(grid_comm, 0, -1, v_val);
-					part2 += v[getIndex(i+1, j, k, iRange)] - v_val; 
+					part2 += v[getIndex(i+1, j, k, iRange, jRange)] - v_val; 
 				}	
 				else if(i == iRange - 1)
 				{
 					part2 += getValFromCartShift(grid_comm, 0, 1, v_val );
-					part2 += v[getIndex(i-1, j, k, iRange)] - v_val;	
+					part2 += v[getIndex(i-1, j, k, iRange, jRange)] - v_val;	
 				}
 				else
 				{
-					part2 += v[getIndex(i+1, j, k, iRange)] - v_val + v[getIndex(i-1, j, k, iRange)] - v_val;
+					part2 += v[getIndex(i+1, j, k, iRange, jRange)] - v_val + v[getIndex(i-1, j, k, iRange, jRange)] - v_val;
 				}
 
 				if(j == 0)
 				{
 					part2 += getValFromCartShift(grid_comm, 1, -1, v_val);
-					part2 += v[getIndex(i, j+1, k, iRange)] - v_val;
+					part2 += v[getIndex(i, j+1, k, iRange, jRange)] - v_val;
 				}
 				else if(j == jRange - 1)
 				{
 					part2 += getValFromCartShift(grid_comm, 1, 1, v_val);
-					part2 += v[getIndex(i, j-1, k, iRange)] - v_val;
+					part2 += v[getIndex(i, j-1, k, iRange, jRange)] - v_val;
 				}
 				else
 				{
-					part2 += v[getIndex(i, j+1, k, iRange)] - v_val  + v[getIndex(i, j-1, k, iRange)] - v_val;
+					part2 += v[getIndex(i, j+1, k, iRange, jRange)] - v_val  + v[getIndex(i, j-1, k, iRange, jRange)] - v_val;
 				}
 
 				if(k == 0)
 				{
 					part2 += getValFromCartShift(grid_comm, 2, -1, v_val);
-					part2 += v[getIndex(i, j, k+1, iRange)] - v_val;
+					part2 += v[getIndex(i, j, k+1, iRange, jRange)] - v_val;
 				}
 				else if(k == kRange - 1)
 				{	
 					part2 += getValFromCartShift(grid_comm, 2, 1, v_val);
-					part2 += v[getIndex(i, j, k-1, iRange)] - v_val;
+					part2 += v[getIndex(i, j, k-1, iRange, jRange)] - v_val;
 				}
 				else
 				{
-					part2 += v[getIndex(i, j, k+1, iRange)] - v_val + v[getIndex(i, j, k-1, iRange)] - v_val;
+					part2 += v[getIndex(i, j, k+1, iRange, jRange)] - v_val + v[getIndex(i, j, k-1, iRange, jRange)] - v_val;
 				}
 
 				part2 = part2/(h*h);
@@ -232,10 +236,10 @@ real_t getValFromCartShift(MPI_Comm &grid_comm, int direction, int  displacement
 }
 
 
-int getIndex(real_t i, real_t j, real_t k, real_t range)
+int getIndex(real_t i, real_t j, real_t k, real_t iRange,real_t jRange)
 {
 	//printf("Printing index i = %f\n", k+ j*range + i*range*range);
-	return (int)(k + j*range + i*range*range);
+	return (int)(k + j*jRange + i*iRange*jRange);
 }
 
 real_t u_func(real_t x, real_t y, real_t z)
