@@ -1,8 +1,10 @@
 #include <vector>
 #include <stddef.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <iterator>
 #include <algorithm>
+#include <mpi.h>
+
 
 typedef double data_t;
 

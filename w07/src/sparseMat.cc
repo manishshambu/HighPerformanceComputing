@@ -30,7 +30,7 @@ void csrToCoo(std::vector<size_t> data, std::vector<size_t> column, std::vector<
 		}
 	}
 }
-/*
+
 void cooToCsr(std::vector<size_t> &data, std::vector<size_t> &column, std::vector<size_t> &row_ptr, std::vector<size_t> x,std::vector<size_t> y, std::vector<size_t> value)
 {
 	size_t numElements = value.size();
@@ -57,12 +57,12 @@ void cooToCsr(std::vector<size_t> &data, std::vector<size_t> &column, std::vecto
 	row_ptr[0] = 0;
 	for(size_t i = 0; i < rowCount.size(); i++)
 	{
-		row
+		
 	}
 	
 
 }
-*/
+
 void transpose(std::vector<size_t> &x, std::vector<size_t> &y, std::vector<size_t> &value)
 {
 	int numtasks, rank;
@@ -82,7 +82,52 @@ void transpose(std::vector<size_t> &x, std::vector<size_t> &y, std::vector<size_
                 }
         }
 	
+	// Find the submatrix position for each row indices after transpose
+	int subMatrixSize = ceil(numElements/numtasks);
+	std::vector<size_t> dest_row(numElements);
+
+	for(int i = 0; i < numElements; i++)
+	{
+		dest_row[i] = x[i]/subMatrixSize;
+	}
 	
+	std::vector<size_t> index;
+	sort_index(dest_row, index);
+	size_t row[numElements];
+	size_t col[numElements];
+	size_t data[numElements];
+	
+	std::vector<int> counts(numtasks, 0);
+	std::vector<int> displace(numtasks, 0);
+	for(int i=0; i< index.size(); i++)
+	{
+		row[i] = x[index[i]]%subMatreixSize;
+		col[i] = y[index[i]]+rank*numElements;
+		data[i] = value[index[i]];
+		counts[row[index[i]]] += 1;
+	}
+
+	for(int i=0; i < index.size(); i++)
+	{
+		displace[i] = displace[i-1]+ counts[i-1];
+	}
+	int recvCounts[numtasks], recvDisplace[numtasks];
+	MPI_Alltoall(counts, 1, MPI_INT, recvCounts, 1, MPI_INT, MPI_COMM_WORLD);
+	for(int i=0; i<numtasks; i++)
+	{
+		
+	}
+
+	// Initialise vectors to store the recieved row, column and data
+	std::vector<size_t> new_row;
+	std::vector<size_t> new_col;
+	std::vector<size_t> new_data;
+
+	MPI_Alltoallv(row, counts, x );
+	MPI_Alltoallv(column, counts,y );
+	MPI_Alltoallv(data, counts,value );
+	
+	cooToCsr();
 }
 
 
