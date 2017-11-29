@@ -3,13 +3,15 @@ __kernel void mandelbrot(__global const double *xmin, __global const double *xma
     double pixelWidth = (*xmax-*xmin)/ (double)*n;
     double pixelHeight = (*ymax-*ymin)/ (double)*n;
     
-    int xpix = get_global_id(0);
-    int ypix = get_global_id(1);
+    int npix = get_global_id(0);
+    //double ypix = get_global_id(1);
     
-    //printf("xpix  %d\n", xpix);
-    //printf("ypix  %d\n", ypix);
-    double xc = *xmin + (double)xpix * pixelWidth;
-    double yc = *ymax - (double)ypix * pixelHeight;
+    double xpix = (npix/ *n);
+    double ypix = (double)(npix % *n);
+    //printf("xpix  %lf\n", xpix);
+    //printf("ypix  %lf\n", ypix);
+    double xc = *xmin + xpix * pixelWidth;
+    double yc = *ymin + ypix * pixelHeight;
     
     int it;
     double x,y;
@@ -31,6 +33,5 @@ __kernel void mandelbrot(__global const double *xmin, __global const double *xma
     printf("%lf %lf %d\n",xc, yc, it);
     
     //mandelbrot[((xpix* *n) + ypix)] = it;
-    
-    //mandelbrot[(*n * (xpix-1)) + ypix] = it;
 }
+
